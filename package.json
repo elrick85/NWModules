@@ -1,0 +1,17 @@
+{
+  "name": "crypt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodeunit test/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodeunit": "^0.9.1"
+  },
+  "dependencies": {
+    "easy-zip": "0.0.4"
+  }
+}
