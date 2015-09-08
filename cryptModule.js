@@ -5,28 +5,29 @@
 var fs = require('fs'),
     crypto = require('crypto');
 
+var cProcess = require('child_process');
+var opensslPath = "openssl/bin/openssl.exe";
+
 function fileEncrypt(path, upath, key, callback) {
-    var cipher = crypto.createCipher('aes-256-cbc', key),
-        input = fs.createReadStream(path),
-        output = fs.createWriteStream(upath);
-
-    input.pipe(cipher).pipe(output);
-
-    output.on('finish', function() {
-        callback();
-    });
+    var options = ["smim", "-encrypt -binary -des3",
+                   "-in", path,
+                   "-passin", "pass:" + key.passphrase,
+                   "-outform", "DER",
+                   "-out", upath,
+                   "-inkey", key.key];
+    var proc = cProcess.execFile(opensslPath, options);
+    proc.on("close", callback);
 }
 
-function fileDecrypt(path, upath, key, callback){
-    var decipher = crypto.createDecipher('aes-256-cbc', key),
-        dInput = fs.createReadStream(path),
-        dOutput = fs.createWriteStream(upath);
-
-    dInput.pipe(decipher).pipe(dOutput);
-
-    dOutput.on('finish', function() {
-        callback();
-    });
+function fileDecrypt(path, upath, key, callback) {
+    var options = ["smim", "-decrypt -binary -des3",
+                   "-in", path,
+                   "-passin", "pass:" + key.passphrase,
+                   "-outform", "DER",
+                   "-out", upath,
+                   key.key];
+    var proc = cProcess.execFile(opensslPath, options);
+    proc.on("close", callback);
 }
 
 module.exports = {
