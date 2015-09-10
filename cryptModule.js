@@ -16,6 +16,9 @@ function fileEncrypt(path, upath, key, callback) {
                    "-out", upath,
                    "-inkey", key.key];
     var proc = cProcess.execFile(opensslPath, options);
+    proc.on("error", function(){
+        console.log(arguments);
+    });
     proc.on("close", callback);
 }
 

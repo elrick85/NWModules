@@ -12,6 +12,7 @@
     "nodeunit": "^0.9.1"
   },
   "dependencies": {
-    "easy-zip": "0.0.4"
+    "easy-zip": "0.0.4",
+    "q": "^1.4.1"
   }
 }
