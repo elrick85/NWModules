@@ -4,6 +4,7 @@
 var fs = require("fs");
 var Q = require("q");
 var cryptModule = require("../cryptModule");
+var repositoryProvider = require("../repositoryProvider");
 var zipModule = require("../zipModule");
 var signModule = require("../signModule");
 var ppk = "test/keys/private.pem";
@@ -174,7 +175,6 @@ exports.signTest = function(test) {
         });
 };
 
-
 exports.workflowTest = function(test) {
     var appFolder = "test/app";
     var packPath = "test/pack";
@@ -221,4 +221,18 @@ exports.workflowTest = function(test) {
         .fin(function() {
             test.done();
         });
+};
+
+exports.repositoryProjectsTest = function(test){
+    repositoryProvider.projects("ouq42JtWqx2aGitZT-TD", function(err, data){
+        test.ok(!err, "Data received");
+        test.done();
+    });
+};
+
+exports.repositoryProjectTreeTest = function(test){
+    repositoryProvider.repositoryTree(7277, "ouq42JtWqx2aGitZT-TD", function(err, data){
+        test.ok(!err, "Data received");
+        test.done();
+    });
 };
