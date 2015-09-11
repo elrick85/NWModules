@@ -231,8 +231,48 @@ exports.repositoryProjectsTest = function(test){
 };
 
 exports.repositoryProjectTreeTest = function(test){
-    repositoryProvider.repositoryTree(7277, "ouq42JtWqx2aGitZT-TD", function(err, data){
+    repositoryProvider.repositoryTree(7277, "pdfs", "ouq42JtWqx2aGitZT-TD", function(err, data){
         test.ok(!err, "Data received");
         test.done();
+    });
+};
+
+exports.repositoryProjectFileInfoTest = function(test){
+    repositoryProvider.repositoryFile(7277, "pdfs/Page1.pdf", "ouq42JtWqx2aGitZT-TD", function(err, data){
+        test.ok(!err, "Data received");
+        test.done();
+    });
+};
+
+exports.repositoryProjectCreateFileTest = function(test){
+    var data = {
+        branch: "test",
+        path: "test/testFiles/Page1test.pdf",
+        comment: "Test file create."
+    };
+
+    repositoryProvider.createRepositoryFile(7277, "pdfs/Page2test.pdf", data, "ouq42JtWqx2aGitZT-TD", function(err){
+        test.ok(!err, "File created");
+
+        data = {
+            branch: "test",
+            path: "test/testFiles/Page2test.pdf",
+            comment: "Test file update."
+        };
+
+        repositoryProvider.updateRepositoryFile(7277, "pdfs/Page2test.pdf", data, "ouq42JtWqx2aGitZT-TD", function(err){
+            test.ok(!err, "File updated");
+
+            data = {
+                branch: "test",
+                comment: "Test file remove."
+            };
+
+            repositoryProvider.removeRepositoryFile(7277, "pdfs/Page2test.pdf", data, "ouq42JtWqx2aGitZT-TD", function(err){
+                test.ok(!err, "File removed");
+
+                test.done();
+            });
+        });
     });
 };
